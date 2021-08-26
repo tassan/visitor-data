@@ -5,6 +5,7 @@ import socket as s
 import os
 from dotenv import load_dotenv
 import requests
+from markupsafe import escape
 
 load_dotenv(".env")
 
@@ -20,10 +21,18 @@ def get_ip():
     ip = s.gethostbyname(hostname)
     return jsonify({"hostname": hostname, "ip": ip}), 200
 
-
 @app.route("/geo", methods=["GET"])
 def get_geo():
-    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}"
+    hostname = s.gethostname()
+    ip = s.gethostbyname(hostname)
+    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={ip}"
     response = requests.get(url)
-    return response.content
+    return jsonify(response.content)
+
+@app.route("/geo/<ip>", methods=["GET"])
+def get_geo_by_ip(ip):
+    ip_address = escape(ip)
+    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={ip_address}"
+    response = requests.get(url)
+    return jsonify(response.content)
 
