@@ -27,7 +27,3 @@ def get_geo():
     response = requests.get(url)
     return response.content
 
-
-# Fake test to pass travis build
-def test():
-    assert True
