@@ -8,9 +8,8 @@
 </head>
 <body>
     <h1>Hello <s>Stranger</s> Visitor, I'm stealing your data.. wait a minute!</h1>
-    <p>{{ content}}</p>
     {% if content %}
-    <h2>It seens you're from {{ content['country']}} {{ content['emoji'] }} in {{ content['region']}}/{{content['region_iso_code'] }}</h2>
+    <h2>It seens you're from {{ content['country']}} {{ content['emoji'] }} in {{ content['city'] }} {{ content['region']}}/{{content['region_iso_code'] }}</h2>
     <h2>And heres your IP: {{ content['ip_address']}}</h2>
     {% endif %}
 </body>
