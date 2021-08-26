@@ -1,3 +1,4 @@
 .env
 .visitor
 __pycache__
+*.sqlite3

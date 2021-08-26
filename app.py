@@ -10,6 +10,9 @@ load_dotenv(".env")
 
 app = Flask(__name__)
 
+# DATABASE = os.getenv("DATABASE")
+KEY = os.getenv("KEY")
+
 
 @app.route("/ip", methods=["GET"])
 def get_ip():
@@ -20,7 +23,6 @@ def get_ip():
 
 @app.route("/geo", methods=["GET"])
 def get_geo():
-    key = os.getenv("KEY")
-    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={key}"
+    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}"
     response = requests.get(url)
     return response.content
