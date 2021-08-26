@@ -19,8 +19,7 @@ KEY = os.getenv("KEY")
 
 @app.route("/")
 def index():
-    IP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={IP}"
+    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}"
     response = requests.get(url)
     geo = response.json()
     return render_template('index.html', content=geo)
@@ -33,7 +32,7 @@ def get_ip():
 
 @app.route("/geo", methods=["GET"])
 def get_geo():
-    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={IP}"
+    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}"
     response = requests.get(url)
     return response.content
 
