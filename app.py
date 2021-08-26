@@ -1,3 +1,4 @@
+from logging import log
 from flask import json, request
 from flask import jsonify
 from flask.app import Flask
@@ -11,11 +12,14 @@ from markupsafe import escape
 load_dotenv(".env")
 
 app = Flask(__name__)
+app.app_context()
+
 KEY = os.getenv("KEY")
-IP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+
 
 @app.route("/")
 def index():
+    IP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={IP}"
     response = requests.get(url)
     geo = response.json()
@@ -24,9 +28,8 @@ def index():
 
 @app.route("/ip", methods=["GET"])
 def get_ip():
-    hostname = s.gethostname()
-    ip = s.gethostbyname(hostname)
-    return jsonify({"hostname": hostname, "ip": IP}), 200
+    IP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    return jsonify({"ip": IP}), 200
 
 @app.route("/geo", methods=["GET"])
 def get_geo():
