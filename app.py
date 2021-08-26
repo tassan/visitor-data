@@ -12,13 +12,11 @@ load_dotenv(".env")
 
 app = Flask(__name__)
 KEY = os.getenv("KEY")
-
+IP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
 
 @app.route("/")
 def index():
-    hostname = s.gethostname()
-    ip = s.gethostbyname(hostname)
-    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={ip}"
+    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={IP}"
     response = requests.get(url)
     geo = response.json()
     return render_template('index.html', content=geo)
@@ -28,13 +26,11 @@ def index():
 def get_ip():
     hostname = s.gethostname()
     ip = s.gethostbyname(hostname)
-    return jsonify({"hostname": hostname, "ip": ip}), 200
+    return jsonify({"hostname": hostname, "ip": IP}), 200
 
 @app.route("/geo", methods=["GET"])
 def get_geo():
-    hostname = s.gethostname()
-    ip = s.gethostbyname(hostname)
-    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={ip}"
+    url = f"https://ipgeolocation.abstractapi.com/v1/?api_key={KEY}&ip_address={IP}"
     response = requests.get(url)
     return response.content
 
